@@ -1,0 +1,121 @@
+Public-Facing Website
+
+Build a modern, responsive homepage showcasing:
+
+About Me (Rita D’Souza – Certified Leadership Coach & Emotional Intelligence Trainer)
+
+Services (Career Guidance, Workshops & Seminars)
+
+Testimonials (dynamic, can be updated via admin)
+
+Blog/Articles section with dynamic posts
+
+Contact Information (Phone, Email, Socials)
+
+Add clear CTAs: “Book a Free Career Call” and “Explore Our Services”.
+
+Implement red, black, and white color scheme.
+
+Add smooth animations, hover effects, cards, and modals for interactivity.
+
+Include social media links: LinkedIn, Facebook, Instagram, X (Twitter).
+
+Responsive design (desktop, tablet, mobile).
+
+2. Razorpay Payment Integration
+
+Add a payment page where users can purchase career guidance or workshop plans.
+
+Integrate with Razorpay API (sandbox/test mode for dev).
+
+Securely store Razorpay credentials.
+
+Orders must be created, tracked, and confirmed automatically.
+
+Payments & transactions should be viewable in the admin dashboard.
+
+3. Admin Dashboard
+
+Secure route /admin with login required.
+
+Hardcoded credentials:
+
+Email: admin@fasttrack360.com
+
+Password: fasttrack123
+
+Dashboard should allow CRUD (Create, Read, Update, Delete) for:
+
+Homepage content
+
+Services
+
+Testimonials
+
+Blog/Articles
+
+Orders/Payments
+
+Dashboard must be clean, interactive, and visually appealing with charts/graphs (for payments, blog reach, etc.).
+
+4. Authentication
+
+Session-based login for admin.
+
+Unauthorized access redirects to login page.
+
+Include logout option.
+
+5. Frontend Interactivity
+
+Use Acenternity UI / Tailwind for components.
+
+Features to include:
+
+Animated cards for services & testimonials.
+
+Modals for blog read-more.
+
+Interactive charts (for testimonials impact or payment stats).
+
+Ensure consistent color palette (Red/Black/White).
+
+6. Backend Functionality
+
+Store all website data (about, services, blogs, testimonials, payments) in a database.
+
+Provide full CRUD APIs.
+
+Secure Razorpay API handling.
+
+Proper error handling, input validation, and clean code structure.
+
+7. Deployment
+
+The app must run seamlessly on Replit.
+
+Provide clear setup instructions (e.g., env variables for Razorpay keys, how to start app).
+
+Tech Stack
+
+Frontend: React + Tailwind (with animations & interactivity)
+
+Backend: Node.js + Express
+
+Database: MongoDB (or Replit DB if needed)
+
+Payments: Razorpay API integration
+
+Hosting: Replit environment
+
+⚡ Deliver a fully functional app from scratch with:
+
+A polished public-facing website
+
+Secure Razorpay integration
+
+Admin dashboard with CRUD features
+
+Responsive, modern design (Red/Black/White theme)
+
+✅ End Goal: A professional, client-ready web app for Fast Track 360 Consultancy that can attract new clients, showcase services, collect payments, and manage content dynamically.
