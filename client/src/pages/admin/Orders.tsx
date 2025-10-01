@@ -73,18 +73,20 @@ export default function AdminOrders() {
                       </TableCell>
                       <TableCell>
                         <div>
-                          <p className="font-medium">{order.customerName}</p>
-                          <p className="text-xs text-muted-foreground">{order.customerEmail}</p>
-                          <p className="text-xs text-muted-foreground">{order.customerPhone}</p>
+                          <p className="font-medium">{order.userName}</p>
+                          <p className="text-xs text-muted-foreground">{order.userEmail}</p>
+                          {order.userPhone && (
+                            <p className="text-xs text-muted-foreground">{order.userPhone}</p>
+                          )}
                         </div>
                       </TableCell>
                       <TableCell className="max-w-[200px]">
-                        <p className="truncate font-medium">{order.serviceName}</p>
+                        <p className="truncate font-medium text-muted-foreground">{order.serviceId}</p>
                       </TableCell>
                       <TableCell className="font-semibold">
                         ₹{(order.amount / 100).toLocaleString("en-IN")}
                       </TableCell>
-                      <TableCell>{getStatusBadge(order.orderStatus)}</TableCell>
+                      <TableCell>{getStatusBadge(order.status)}</TableCell>
                       <TableCell className="text-sm">
                         {format(new Date(order.createdAt), "MMM dd, yyyy")}
                         <br />
@@ -121,7 +123,7 @@ export default function AdminOrders() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
-                {orders.filter((o) => o.orderStatus === "paid").length}
+                {orders.filter((o) => o.status === "paid").length}
               </div>
             </CardContent>
           </Card>
@@ -132,7 +134,7 @@ export default function AdminOrders() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-yellow-600">
-                {orders.filter((o) => o.orderStatus === "pending").length}
+                {orders.filter((o) => o.status === "pending").length}
               </div>
             </CardContent>
           </Card>
@@ -146,7 +148,7 @@ export default function AdminOrders() {
                 ₹
                 {(
                   orders
-                    .filter((o) => o.orderStatus === "paid")
+                    .filter((o) => o.status === "paid")
                     .reduce((sum, o) => sum + o.amount, 0) / 100
                 ).toLocaleString("en-IN")}
               </div>

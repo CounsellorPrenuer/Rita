@@ -155,7 +155,7 @@ export default function AdminTestimonials() {
           <h1 className="text-3xl font-bold">Testimonials Management</h1>
           <p className="text-muted-foreground">Manage client testimonials</p>
         </div>
-        <Button onClick={handleCreate} data-testid="button-create-testimonial">
+        <Button onClick={handleCreate} data-testid="button-add-testimonial">
           <Plus className="mr-2 h-4 w-4" />
           Add Testimonial
         </Button>

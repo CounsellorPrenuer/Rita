@@ -162,7 +162,7 @@ export default function AdminBlogPosts() {
           <h1 className="text-3xl font-bold">Blog Posts Management</h1>
           <p className="text-muted-foreground">Manage your blog articles</p>
         </div>
-        <Button onClick={handleCreate} data-testid="button-create-blog-post">
+        <Button onClick={handleCreate} data-testid="button-add-blog-post">
           <Plus className="mr-2 h-4 w-4" />
           Add Blog Post
         </Button>

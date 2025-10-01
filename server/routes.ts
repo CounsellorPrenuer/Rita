@@ -213,13 +213,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create order in database
       const order = await storage.createOrder({
         serviceId: service.id,
-        serviceName: service.title,
+        userName: customerName,
+        userEmail: customerEmail,
+        userPhone: customerPhone,
         amount: service.price,
-        customerName,
-        customerEmail,
-        customerPhone,
         razorpayOrderId: razorpayOrder.id,
-        orderStatus: "pending",
+        status: "pending",
       });
 
       res.json({
@@ -257,7 +256,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const order = await storage.getOrderByRazorpayOrderId(razorpay_order_id);
         if (order) {
           await storage.updateOrder(order.id, {
-            orderStatus: "failed",
+            status: "failed",
           });
         }
         return res.status(400).json({ message: "Invalid payment signature" });
@@ -270,7 +269,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       await storage.updateOrder(order.id, {
-        orderStatus: "paid",
+        status: "paid",
         razorpayPaymentId: razorpay_payment_id,
         razorpaySignature: razorpay_signature,
       });

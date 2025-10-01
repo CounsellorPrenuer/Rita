@@ -173,7 +173,7 @@ export default function AdminServices() {
           <h1 className="text-3xl font-bold">Services Management</h1>
           <p className="text-muted-foreground">Manage your career services</p>
         </div>
-        <Button onClick={handleCreate} data-testid="button-create-service">
+        <Button onClick={handleCreate} data-testid="button-add-service">
           <Plus className="mr-2 h-4 w-4" />
           Add Service
         </Button>
