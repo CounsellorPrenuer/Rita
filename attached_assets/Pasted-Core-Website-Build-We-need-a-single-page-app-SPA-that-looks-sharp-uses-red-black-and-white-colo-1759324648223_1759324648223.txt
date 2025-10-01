@@ -1,0 +1,43 @@
+Core Website Build
+We need a single-page app (SPA) that looks sharp, uses red, black, and white colors, and is fully responsive. It should cover these main sections on the homepage: About Me, Services, Testimonials (even if empty for now), Contact Info, and a Blog/Articles section.
+
+The most important requirement: Use Python and Flask for the backend and ensure all website content (text for all sections, services, etc.) is managed and pulled from a database so the admin dashboard can update it dynamically.
+
+👤 Content & Branding (Immediate Update!)
+Please replace the placeholder images and text with the real assets provided:
+
+Company Logo: Save the newly uploaded logo image (the "FAST TRACK Consulting" logo) and use it everywhere the logo appears in the header and footer.
+
+Rita DSouza Photo: Save the newly uploaded professional photo of Rita DSouza and use it in the About Me section.
+
+About Me Text: Use the text: "Certified Leadership Coach and Emotional Intelligence Trainer."
+
+Contact Info:
+
+Email: rejoicerita@gmail.com
+
+Phone: 8553270497
+
+Services: Focus on Career Guidance and Workshops & Seminars.
+
+🛠️ Backend and Admin Dashboard
+Authentication: Set up a simple admin login at /admin.
+
+Email: admin@fasttrack360.com
+
+Password: admin123
+
+CRUD: The admin dashboard must allow the admin to Create, Read, Update, and Delete content for every dynamic part of the website (homepage text, service descriptions, blog posts, etc.).
+
+Data Tracking: The dashboard should track all payments, contacts, and form submissions.
+
+💳 Razorpay Integration
+We need a full and functional payment system:
+
+Frontend: Create a payment section showing the service packages. When a user selects a package, it should trigger the Razorpay payment gateway pop-up.
+
+Backend: Securely handle the payment workflow: create Razorpay orders, receive the payment success/failure response, and verify the transaction signature.
+
+Database: Log all successful payment transactions in the database, making them visible on the Admin Dashboard.
+
+Let's make this thing work! 🚀

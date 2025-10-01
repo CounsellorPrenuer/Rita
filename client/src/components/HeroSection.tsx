@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, Users, TrendingUp } from "lucide-react";
-import ritaPortraitImage from "@assets/generated_images/Rita_D'Souza_professional_portrait_64bb1015.png";
+import ritaPortraitImage from "@assets/image_1759324778990.png";
 
 export default function HeroSection() {
   return (

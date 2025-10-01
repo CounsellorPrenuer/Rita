@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@assets/image_1759324735001.png";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -20,10 +21,14 @@ export default function Navigation() {
           <div className="flex items-center">
             <button
               onClick={() => scrollToSection("hero")}
-              className="text-xl font-heading font-bold text-foreground hover-elevate px-3 py-1 rounded-md"
+              className="hover-elevate px-2 py-1 rounded-md"
               data-testid="link-logo"
             >
-              Fast Track <span className="text-primary">360</span>
+              <img
+                src={logoImage}
+                alt="Fast Track Consulting"
+                className="h-10 w-auto"
+              />
             </button>
           </div>
 
