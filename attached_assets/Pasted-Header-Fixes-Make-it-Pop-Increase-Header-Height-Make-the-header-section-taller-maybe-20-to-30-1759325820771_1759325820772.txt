@@ -1,0 +1,45 @@
+Header Fixes (Make it Pop!):
+
+Increase Header Height: Make the header section taller—maybe 20% to 30% taller than it is now—to give the elements some breathing room.
+
+Prominent Logo: Significantly increase the size of the logo. Make it sharp and clearly visible on the left side.
+
+Rita's Photo Polish: In the About Me section, make Rita DSouza's photo slightly smaller than the previous version and give it a clean, modern treatment, like gently rounded corners or perhaps a subtle drop shadow to make it stand out against the white background.
+
+Overall Look: Give the whole website a minimal, but very attractive feel. Use clean lines, good white space, and subtle animations (like a small hover effect on the navigation links or cards) to keep it engaging without changing the core theme.
+
+🎯 Core Website Build
+We need a single-page app (SPA) that is fully responsive. It must cover the main homepage sections: About Me, Services, Testimonials (empty is fine for now), Contact Info, and a Blog/Articles section.
+
+The most important requirement: Use Python and Flask for the backend and make sure all content is dynamic, pulled from a database so the admin dashboard can update it.
+
+👤 Content & Branding
+Company Logo: Use the uploaded "FAST TRACK Consulting" logo (blue/yellow/magenta).
+
+Rita DSouza Photo: Use the latest uploaded photo for the About Me section.
+
+About Me Text: Use the text: "Certified Leadership Coach and Emotional Intelligence Trainer."
+
+Services: Focus on Career Guidance and Workshops & Seminars.
+
+Contact Info: Email: rejoicerita@gmail.com, Phone: 8553270497.
+
+🛠️ Backend and Admin Dashboard
+Authentication: Set up a simple admin login at /admin.
+
+Email: admin@fasttrack360.com
+
+Password: admin123
+
+CRUD: The admin dashboard must allow the admin to Create, Read, Update, and Delete content for every dynamic part of the website (text, service descriptions, blog posts, etc.).
+
+Data Tracking: The dashboard should track all payments, contacts, and form submissions.
+
+💳 Razorpay Integration
+Make sure the full payment system is functional:
+
+Frontend: Create a payment section with packages that launches the Razorpay pop-up.
+
+Backend: Securely handle order creation, payment success/failure, and transaction verification.
+
+Database: Log all successful payments so they show up clearly on the Admin Dashboard.
