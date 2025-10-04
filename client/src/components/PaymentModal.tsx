@@ -180,15 +180,17 @@ export function PaymentModal({ service, open, onOpenChange, onSuccess }: Payment
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Book Service</DialogTitle>
-          <DialogDescription>
-            {service && (
-              <div className="mt-2">
-                <p className="font-semibold">{service.title}</p>
-                <p className="text-2xl font-bold text-primary mt-1">
-                  ₹{(service.price / 100).toLocaleString("en-IN")}
-                </p>
-              </div>
-            )}
+          <DialogDescription asChild>
+            <div>
+              {service && (
+                <div className="mt-2">
+                  <div className="font-semibold">{service.title}</div>
+                  <div className="text-2xl font-bold text-primary mt-1">
+                    ₹{(service.price / 100).toLocaleString("en-IN")}
+                  </div>
+                </div>
+              )}
+            </div>
           </DialogDescription>
         </DialogHeader>
 
