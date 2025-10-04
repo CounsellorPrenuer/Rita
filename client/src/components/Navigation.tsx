@@ -15,19 +15,19 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-lg border-b-2 border-border shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
+        <div className="flex items-center justify-between h-20">
           <div className="flex items-center">
             <button
               onClick={() => scrollToSection("hero")}
-              className="hover-elevate px-2 py-1 rounded-md"
+              className="hover-elevate px-3 py-2 rounded-md transition-transform duration-200 hover:scale-105"
               data-testid="link-logo"
             >
               <img
                 src={logoImage}
                 alt="Fast Track Consulting"
-                className="h-10 w-auto"
+                className="h-14 w-auto"
               />
             </button>
           </div>

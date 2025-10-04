@@ -12,8 +12,8 @@ export default function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-20 bg-muted/30 border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4" data-testid="badge-about">
             About Rita D'Souza
@@ -28,11 +28,12 @@ export default function AboutSection() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+          <div className="relative">
+            <div className="absolute -inset-2 bg-primary/5 rounded-2xl blur-xl"></div>
             <img
               src={ritaWorkshopImage}
               alt="Rita D'Souza conducting workshop"
-              className="rounded-lg w-full h-auto object-cover"
+              className="relative rounded-2xl w-full h-auto object-cover shadow-lg border-2 border-primary/10"
               data-testid="img-about-workshop"
             />
           </div>
@@ -54,7 +55,7 @@ export default function AboutSection() {
               </p>
             </div>
 
-            <Card className="p-6">
+            <Card className="p-6 border-2 shadow-md">
               <h4 className="text-lg font-heading font-semibold text-foreground mb-4">
                 Certifications & Credentials
               </h4>

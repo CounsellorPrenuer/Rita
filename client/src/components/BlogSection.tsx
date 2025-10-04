@@ -22,8 +22,8 @@ export default function BlogSection() {
 
   return (
     <>
-      <section id="blog" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="blog" className="py-20 border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4" data-testid="badge-blog">
               Insights & Articles
@@ -49,7 +49,7 @@ export default function BlogSection() {
               {blogPosts.map((post, index) => (
                 <Card
                   key={post.id}
-                  className="hover-elevate flex flex-col overflow-hidden"
+                  className="hover-elevate flex flex-col overflow-hidden border-2 shadow-md transition-all duration-300"
                   data-testid={`card-blog-${index}`}
                 >
                   <div className="relative h-48 overflow-hidden">
@@ -57,10 +57,10 @@ export default function BlogSection() {
                       <img
                         src={post.image}
                         alt={post.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     )}
-                    <Badge className="absolute top-4 left-4">{post.category}</Badge>
+                    <Badge className="absolute top-4 left-4 shadow-lg">{post.category}</Badge>
                   </div>
                   <CardHeader>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">

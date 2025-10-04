@@ -31,8 +31,8 @@ export default function ServicesSection() {
 
   return (
     <>
-      <section id="services" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="services" className="py-20 border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
           <div className="text-center mb-12">
             <Badge variant="secondary" className="mb-4" data-testid="badge-services">
               Our Services
@@ -60,11 +60,11 @@ export default function ServicesSection() {
                 return (
                   <Card
                     key={service.id}
-                    className="hover-elevate flex flex-col"
+                    className="hover-elevate flex flex-col border-2 shadow-md transition-all duration-300"
                     data-testid={`card-service-${index}`}
                   >
                     <CardHeader>
-                      <div className="h-12 w-12 rounded-md bg-primary/10 flex items-center justify-center mb-4">
+                      <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
                         <Icon className="h-6 w-6 text-primary" />
                       </div>
                       <CardTitle className="text-xl font-heading">{service.title}</CardTitle>

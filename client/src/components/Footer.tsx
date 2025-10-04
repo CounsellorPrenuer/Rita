@@ -13,8 +13,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-border bg-card">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="border-t-2 border-border bg-card shadow-inner">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-lg font-heading font-bold text-foreground mb-4">

@@ -5,9 +5,9 @@ import ritaPortraitImage from "@assets/image_1759324778990.png";
 
 export default function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 bg-gradient-to-b from-background to-muted/20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-12 sm:py-16 lg:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="order-2 lg:order-1 animate-fade-in">
             <Badge variant="secondary" className="mb-4" data-testid="badge-professional">
               Certified Leadership Coach
@@ -66,11 +66,12 @@ export default function HeroSection() {
 
           <div className="order-1 lg:order-2 animate-fade-in">
             <div className="relative">
-              <div className="relative rounded-lg overflow-hidden">
+              <div className="absolute -inset-4 bg-primary/5 rounded-2xl blur-2xl"></div>
+              <div className="relative rounded-2xl overflow-hidden shadow-xl border-4 border-primary/10">
                 <img
                   src={ritaPortraitImage}
                   alt="Rita D'Souza - Leadership Coach"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto max-h-[600px] object-cover object-center"
                   data-testid="img-hero-portrait"
                 />
               </div>

@@ -35,8 +35,8 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-20 bg-muted/30 border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4" data-testid="badge-contact">
             Get in Touch
@@ -50,7 +50,7 @@ export default function ContactSection() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          <Card>
+          <Card className="border-2 shadow-lg">
             <CardHeader>
               <CardTitle className="text-2xl font-heading">Send Us a Message</CardTitle>
               <CardDescription>
@@ -109,7 +109,7 @@ export default function ContactSection() {
           </Card>
 
           <div className="space-y-6">
-            <Card>
+            <Card className="border-2 shadow-md">
               <CardHeader>
                 <CardTitle className="text-xl font-heading">Contact Information</CardTitle>
               </CardHeader>
@@ -144,7 +144,7 @@ export default function ContactSection() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-2 shadow-md">
               <CardHeader>
                 <CardTitle className="text-xl font-heading">Follow Us</CardTitle>
                 <CardDescription>

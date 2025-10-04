@@ -22,8 +22,8 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" className="py-20 bg-muted/30 border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10">
         <div className="text-center mb-12">
           <Badge variant="secondary" className="mb-4" data-testid="badge-testimonials">
             Success Stories
@@ -46,9 +46,11 @@ export default function TestimonialsSection() {
           </div>
         ) : (
           <div className="relative max-w-4xl mx-auto">
-            <Card className="p-8 md:p-12">
+            <Card className="p-8 md:p-12 border-2 shadow-xl">
               <CardContent className="p-0">
-                <Quote className="h-12 w-12 text-primary mb-6" />
+                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                  <Quote className="h-6 w-6 text-primary" />
+                </div>
                 <p className="text-lg md:text-xl text-foreground mb-8 leading-relaxed" data-testid="text-testimonial-content">
                   "{testimonials[currentIndex].content}"
                 </p>
@@ -57,7 +59,7 @@ export default function TestimonialsSection() {
                     <img
                       src={testimonials[currentIndex].image}
                       alt={testimonials[currentIndex].name}
-                      className="h-16 w-16 rounded-full object-cover"
+                      className="h-16 w-16 rounded-full object-cover border-2 border-primary/20 shadow-md"
                       data-testid="img-testimonial-avatar"
                     />
                   )}
