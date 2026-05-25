@@ -1,37 +1,52 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Mail, Phone, MapPin, Linkedin, Facebook, Instagram } from "lucide-react";
 import { SiX } from "react-icons/si";
 import { useToast } from "@/hooks/use-toast";
+import { submitLead } from "@/lib/workerApi";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "@/lib/platform";
+import { insertContactSchema, type InsertContact } from "@shared/schema";
 
 export default function ContactSection() {
   const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<InsertContact>({
+    resolver: zodResolver(insertContactSchema),
+    defaultValues: { name: "", email: "", phone: "", message: "" },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", phone: "", message: "" });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+  const onSubmit = async (data: InsertContact) => {
+    setIsSubmitting(true);
+    try {
+      await submitLead(data);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for reaching out. We'll get back to you within 24 hours.",
+      });
+      form.reset();
+    } catch (error: unknown) {
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Contact from ${data.name}`)}&body=${encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\n\nMessage:\n${data.message}`)}`;
+      window.location.href = mailto;
+      const message = error instanceof Error ? error.message : "Fallback to mail app has been triggered.";
+      toast({ title: "Email Draft Opened", description: message });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,53 +73,70 @@ export default function ContactSection() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <Input
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
                     name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    data-testid="input-name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your Name" {...field} data-testid="input-name" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <Input
+                  <FormField
+                    control={form.control}
                     name="email"
-                    type="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    data-testid="input-email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="Your Email" {...field} data-testid="input-email" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <Input
+                  <FormField
+                    control={form.control}
                     name="phone"
-                    type="tel"
-                    placeholder="Your Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    data-testid="input-phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input type="tel" placeholder="Your Phone Number" {...field} data-testid="input-phone" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <div>
-                  <Textarea
+                  <FormField
+                    control={form.control}
                     name="message"
-                    placeholder="Tell us about your goals and how we can help..."
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={5}
-                    required
-                    data-testid="textarea-message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Tell us about your goals and how we can help..."
+                            rows={5}
+                            {...field}
+                            data-testid="textarea-message"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-                <Button type="submit" className="w-full" data-testid="button-submit">
-                  Send Message
-                </Button>
-              </form>
+                  <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="button-submit">
+                    {isSubmitting ? "Sending..." : "Send Message"}
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
           </Card>
 
@@ -118,7 +150,7 @@ export default function ContactSection() {
                   <Phone className="h-5 w-5 text-primary mt-1" />
                   <div>
                     <div className="font-medium text-foreground">Phone</div>
-                    <a href="tel:+919876543210" className="text-muted-foreground hover:text-primary transition-colors">
+                    <a href={`tel:${CONTACT_PHONE}`} className="text-muted-foreground hover:text-primary transition-colors">
                       +91 98765 43210
                     </a>
                   </div>
@@ -127,8 +159,8 @@ export default function ContactSection() {
                   <Mail className="h-5 w-5 text-primary mt-1" />
                   <div>
                     <div className="font-medium text-foreground">Email</div>
-                    <a href="mailto:rita@fasttrack360.com" className="text-muted-foreground hover:text-primary transition-colors">
-                      rita@fasttrack360.com
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-muted-foreground hover:text-primary transition-colors">
+                      {CONTACT_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -136,9 +168,7 @@ export default function ContactSection() {
                   <MapPin className="h-5 w-5 text-primary mt-1" />
                   <div>
                     <div className="font-medium text-foreground">Location</div>
-                    <div className="text-muted-foreground">
-                      Mumbai, Maharashtra, India
-                    </div>
+                    <div className="text-muted-foreground">Mumbai, Maharashtra, India</div>
                   </div>
                 </div>
               </CardContent>
@@ -147,42 +177,20 @@ export default function ContactSection() {
             <Card className="border-2 shadow-md">
               <CardHeader>
                 <CardTitle className="text-xl font-heading">Follow Us</CardTitle>
-                <CardDescription>
-                  Connect with us on social media for insights and updates
-                </CardDescription>
+                <CardDescription>Connect with us on social media for insights and updates</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-3">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => window.open("https://linkedin.com", "_blank")}
-                    data-testid="button-linkedin"
-                  >
+                  <Button variant="outline" size="icon" onClick={() => window.open("https://linkedin.com", "_blank")} data-testid="button-linkedin">
                     <Linkedin className="h-5 w-5" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => window.open("https://facebook.com", "_blank")}
-                    data-testid="button-facebook"
-                  >
+                  <Button variant="outline" size="icon" onClick={() => window.open("https://facebook.com", "_blank")} data-testid="button-facebook">
                     <Facebook className="h-5 w-5" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => window.open("https://instagram.com", "_blank")}
-                    data-testid="button-instagram"
-                  >
+                  <Button variant="outline" size="icon" onClick={() => window.open("https://instagram.com", "_blank")} data-testid="button-instagram">
                     <Instagram className="h-5 w-5" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={() => window.open("https://twitter.com", "_blank")}
-                    data-testid="button-twitter"
-                  >
+                  <Button variant="outline" size="icon" onClick={() => window.open("https://twitter.com", "_blank")} data-testid="button-twitter">
                     <SiX className="h-5 w-5" />
                   </Button>
                 </div>

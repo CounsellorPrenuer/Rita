@@ -4,22 +4,36 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import type { Testimonial } from "@shared/schema";
+import { sanityClient, type TestimonialItem } from "@/lib/sanity";
+
+const fallbackTestimonials: TestimonialItem[] = [
+  {
+    name: "Priya S.",
+    role: "Marketing Manager",
+    achievement: "Promoted to Senior Manager",
+    quote: "Rita's coaching helped me navigate a challenging career transition with confidence and clarity.",
+  },
+  {
+    name: "Rajesh K.",
+    role: "Software Engineer",
+    achievement: "Leadership Role",
+    quote: "The emotional intelligence training transformed how I lead my team and communicate with stakeholders.",
+  },
+];
 
 export default function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { data: testimonials = [], isLoading } = useQuery<Testimonial[]>({
-    queryKey: ["/api/testimonials"],
+  const { data: testimonials = fallbackTestimonials, isLoading } = useQuery<TestimonialItem[]>({
+    queryKey: ["sanity-testimonials"],
+    queryFn: async () =>
+      sanityClient.fetch(`*[_type == "testimonials"] | order(order asc){name,role,achievement,quote}`),
   });
 
-  const next = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  const display = testimonials.length ? testimonials : fallbackTestimonials;
 
-  const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  const next = () => setCurrentIndex((prev) => (prev + 1) % display.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + display.length) % display.length);
 
   return (
     <section id="testimonials" className="py-20 bg-muted/30 border-t border-border">
@@ -40,10 +54,6 @@ export default function TestimonialsSection() {
           <div className="text-center py-12">
             <p className="text-muted-foreground">Loading testimonials...</p>
           </div>
-        ) : testimonials.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No testimonials available yet.</p>
-          </div>
         ) : (
           <div className="relative max-w-4xl mx-auto">
             <Card className="p-8 md:p-12 border-2 shadow-xl">
@@ -52,40 +62,26 @@ export default function TestimonialsSection() {
                   <Quote className="h-6 w-6 text-primary" />
                 </div>
                 <p className="text-lg md:text-xl text-foreground mb-8 leading-relaxed" data-testid="text-testimonial-content">
-                  "{testimonials[currentIndex].content}"
+                  &ldquo;{display[currentIndex].quote}&rdquo;
                 </p>
-                <div className="flex items-center gap-4">
-                  {testimonials[currentIndex].image && (
-                    <img
-                      src={testimonials[currentIndex].image}
-                      alt={testimonials[currentIndex].name}
-                      className="h-16 w-16 rounded-full object-cover border-2 border-primary/20 shadow-md"
-                      data-testid="img-testimonial-avatar"
-                    />
-                  )}
-                  <div>
-                    <div className="font-semibold text-foreground" data-testid="text-testimonial-name">
-                      {testimonials[currentIndex].name}
-                    </div>
-                    <div className="text-sm text-muted-foreground" data-testid="text-testimonial-role">
-                      {testimonials[currentIndex].role} at {testimonials[currentIndex].company}
-                    </div>
+                <div>
+                  <div className="font-semibold text-foreground" data-testid="text-testimonial-name">
+                    {display[currentIndex].name}
+                  </div>
+                  <div className="text-sm text-muted-foreground" data-testid="text-testimonial-role">
+                    {display[currentIndex].role}
+                    {display[currentIndex].achievement ? ` — ${display[currentIndex].achievement}` : ""}
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             <div className="flex items-center justify-center gap-4 mt-8">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={prev}
-                data-testid="button-testimonial-prev"
-              >
+              <Button variant="outline" size="icon" onClick={prev} data-testid="button-testimonial-prev">
                 <ChevronLeft className="h-4 w-4" />
               </Button>
               <div className="flex gap-2">
-                {testimonials.map((_, index) => (
+                {display.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
@@ -96,12 +92,7 @@ export default function TestimonialsSection() {
                   />
                 ))}
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={next}
-                data-testid="button-testimonial-next"
-              >
+              <Button variant="outline" size="icon" onClick={next} data-testid="button-testimonial-next">
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>

@@ -54,6 +54,15 @@ export const blogPosts = pgTable("blog_posts", {
   slugIdx: index("blog_posts_slug_idx").on(table.slug),
 }));
 
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  message: text("message").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const orders = pgTable("orders", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userName: text("user_name").notNull(),
@@ -101,6 +110,11 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({
   readTime: z.number().int().positive().describe("Read time in minutes"),
 });
 
+export const insertContactSchema = createInsertSchema(contactSubmissions).omit({
+  id: true,
+  createdAt: true,
+});
+
 export const insertOrderSchema = createInsertSchema(orders).omit({
   id: true,
   createdAt: true,
@@ -120,6 +134,9 @@ export type Testimonial = typeof testimonials.$inferSelect;
 
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type BlogPost = typeof blogPosts.$inferSelect;
+
+export type InsertContact = z.infer<typeof insertContactSchema>;
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 
 export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type Order = typeof orders.$inferSelect;

@@ -4,3 +4,11 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+.env
+.env.*
+!.env.example
+.wrangler
+studio/node_modules
+studio/dist
+.local
+dist

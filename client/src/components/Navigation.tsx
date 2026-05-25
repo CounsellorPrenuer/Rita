@@ -49,6 +49,13 @@ export default function Navigation() {
             </Button>
             <Button
               variant="ghost"
+              onClick={() => scrollToSection("pricing")}
+              data-testid="link-pricing"
+            >
+              Pricing
+            </Button>
+            <Button
+              variant="ghost"
               onClick={() => scrollToSection("testimonials")}
               data-testid="link-testimonials"
             >
@@ -70,7 +77,7 @@ export default function Navigation() {
             </Button>
             <Button
               variant="default"
-              onClick={() => console.log("Book Free Call clicked")}
+              onClick={() => scrollToSection("contact")}
               data-testid="button-book-call"
             >
               Book Free Call
@@ -111,6 +118,14 @@ export default function Navigation() {
             <Button
               variant="ghost"
               className="w-full justify-start"
+              onClick={() => scrollToSection("pricing")}
+              data-testid="link-pricing-mobile"
+            >
+              Pricing
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
               onClick={() => scrollToSection("testimonials")}
               data-testid="link-testimonials-mobile"
             >
@@ -135,7 +150,7 @@ export default function Navigation() {
             <Button
               variant="default"
               className="w-full"
-              onClick={() => console.log("Book Free Call clicked")}
+              onClick={() => scrollToSection("contact")}
               data-testid="button-book-call-mobile"
             >
               Book Free Call
