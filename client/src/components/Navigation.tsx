@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoImage from "@assets/image_1759324735001.png";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { urlFor } from "@/lib/sanityImage";
+import fallbackLogo from "@assets/image_1759324735001.png";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { data: settings } = useSiteSettings();
+  const logoSrc = urlFor(settings?.logo, { width: 400 }) ?? fallbackLogo;
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -25,61 +29,33 @@ export default function Navigation() {
               data-testid="link-logo"
             >
               <img
-                src={logoImage}
-                alt="Fast Track Consulting"
+                src={logoSrc}
+                alt={settings?.logo?.alt || "Fast Track Consulting"}
                 className="h-14 w-auto"
               />
             </button>
           </div>
 
           <div className="hidden md:flex items-center gap-2">
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("about")}
-              data-testid="link-about"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("about")} data-testid="link-about">
               About
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("services")}
-              data-testid="link-services"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("services")} data-testid="link-services">
               Services
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("pricing")}
-              data-testid="link-pricing"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("pricing")} data-testid="link-pricing">
               Pricing
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("testimonials")}
-              data-testid="link-testimonials"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("testimonials")} data-testid="link-testimonials">
               Testimonials
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("blog")}
-              data-testid="link-blog"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("blog")} data-testid="link-blog">
               Blog
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection("contact")}
-              data-testid="link-contact"
-            >
+            <Button variant="ghost" onClick={() => scrollToSection("contact")} data-testid="link-contact">
               Contact
             </Button>
-            <Button
-              variant="default"
-              onClick={() => scrollToSection("contact")}
-              data-testid="button-book-call"
-            >
+            <Button variant="default" onClick={() => scrollToSection("contact")} data-testid="button-book-call">
               Book Free Call
             </Button>
           </div>
@@ -99,60 +75,25 @@ export default function Navigation() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-border bg-card">
           <div className="px-4 py-4 space-y-2">
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("about")}
-              data-testid="link-about-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("about")}>
               About
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("services")}
-              data-testid="link-services-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("services")}>
               Services
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("pricing")}
-              data-testid="link-pricing-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("pricing")}>
               Pricing
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("testimonials")}
-              data-testid="link-testimonials-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("testimonials")}>
               Testimonials
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("blog")}
-              data-testid="link-blog-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("blog")}>
               Blog
             </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => scrollToSection("contact")}
-              data-testid="link-contact-mobile"
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => scrollToSection("contact")}>
               Contact
             </Button>
-            <Button
-              variant="default"
-              className="w-full"
-              onClick={() => scrollToSection("contact")}
-              data-testid="button-book-call-mobile"
-            >
+            <Button variant="default" className="w-full" onClick={() => scrollToSection("contact")}>
               Book Free Call
             </Button>
           </div>

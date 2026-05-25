@@ -34,6 +34,7 @@ export type ServiceItem = {
   subtitle: string;
   features: string[];
   order?: number;
+  image?: SanityImageValue;
 };
 
 export type TestimonialItem = {
@@ -42,6 +43,19 @@ export type TestimonialItem = {
   achievement?: string;
   quote: string;
   order?: number;
+  photo?: SanityImageValue;
+};
+
+export type SanityImageValue = {
+  asset?: { _ref?: string; _type?: string };
+  alt?: string;
+} | null;
+
+export type SiteSettings = {
+  siteTitle?: string;
+  logo?: SanityImageValue;
+  heroPortrait?: SanityImageValue;
+  aboutImage?: SanityImageValue;
 };
 
 export type BlogPost = {
@@ -50,4 +64,14 @@ export type BlogPost = {
   excerpt: string;
   content: string;
   publishedAt: string;
+  coverImage?: SanityImageValue;
+  category?: string;
+  readTime?: number;
 };
+
+export const SITE_SETTINGS_QUERY = `*[_type == "siteSettings"][0]{
+  siteTitle,
+  logo,
+  heroPortrait,
+  aboutImage
+}`;

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { sanityClient, type TestimonialItem } from "@/lib/sanity";
+import { urlFor } from "@/lib/sanityImage";
 
 const fallbackTestimonials: TestimonialItem[] = [
   {
@@ -27,10 +28,14 @@ export default function TestimonialsSection() {
   const { data: testimonials = fallbackTestimonials, isLoading } = useQuery<TestimonialItem[]>({
     queryKey: ["sanity-testimonials"],
     queryFn: async () =>
-      sanityClient.fetch(`*[_type == "testimonials"] | order(order asc){name,role,achievement,quote}`),
+      sanityClient.fetch(
+        `*[_type == "testimonials"] | order(order asc){name,role,achievement,quote,photo}`,
+      ),
   });
 
   const display = testimonials.length ? testimonials : fallbackTestimonials;
+  const current = display[currentIndex];
+  const photoUrl = urlFor(current?.photo, { width: 200, height: 200 });
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % display.length);
   const prev = () => setCurrentIndex((prev) => (prev - 1 + display.length) % display.length);
@@ -58,19 +63,28 @@ export default function TestimonialsSection() {
           <div className="relative max-w-4xl mx-auto">
             <Card className="p-8 md:p-12 border-2 shadow-xl">
               <CardContent className="p-0">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
-                  <Quote className="h-6 w-6 text-primary" />
-                </div>
+                {photoUrl ? (
+                  <img
+                    src={photoUrl}
+                    alt={current.photo?.alt || current.name}
+                    className="h-16 w-16 rounded-full object-cover border-2 border-primary/20 shadow-md mb-6"
+                    data-testid="img-testimonial-avatar"
+                  />
+                ) : (
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                    <Quote className="h-6 w-6 text-primary" />
+                  </div>
+                )}
                 <p className="text-lg md:text-xl text-foreground mb-8 leading-relaxed" data-testid="text-testimonial-content">
-                  &ldquo;{display[currentIndex].quote}&rdquo;
+                  &ldquo;{current.quote}&rdquo;
                 </p>
                 <div>
                   <div className="font-semibold text-foreground" data-testid="text-testimonial-name">
-                    {display[currentIndex].name}
+                    {current.name}
                   </div>
                   <div className="text-sm text-muted-foreground" data-testid="text-testimonial-role">
-                    {display[currentIndex].role}
-                    {display[currentIndex].achievement ? ` — ${display[currentIndex].achievement}` : ""}
+                    {current.role}
+                    {current.achievement ? ` — ${current.achievement}` : ""}
                   </div>
                 </div>
               </CardContent>

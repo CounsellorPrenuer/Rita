@@ -3,9 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { sanityClient, type BlogPost } from "@/lib/sanity";
+import { urlFor } from "@/lib/sanityImage";
 
 const fallbackPosts: BlogPost[] = [
   {
@@ -15,6 +16,8 @@ const fallbackPosts: BlogPost[] = [
     content:
       "Career clarity starts with self-awareness, guided exploration, and intentional decision-making supported by expert mentorship from a certified leadership coach.",
     publishedAt: new Date().toISOString(),
+    category: "Career Growth",
+    readTime: 5,
   },
 ];
 
@@ -25,7 +28,16 @@ export default function BlogSection() {
     queryKey: ["sanity-blogs"],
     queryFn: async () =>
       sanityClient.fetch(
-        `*[_type == "blogPost"] | order(publishedAt desc){ "slug": slug.current, title, excerpt, content, publishedAt }`,
+        `*[_type == "blogPost"] | order(publishedAt desc){
+          "slug": slug.current,
+          title,
+          excerpt,
+          content,
+          publishedAt,
+          category,
+          readTime,
+          coverImage
+        }`,
       ),
   });
 
@@ -54,15 +66,36 @@ export default function BlogSection() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayPosts.map((post, index) => {
               const expanded = openSlug === post.slug;
+              const coverUrl = urlFor(post.coverImage, { width: 800, height: 450 });
               return (
                 <Card
                   key={post.slug}
-                  className="hover-elevate flex flex-col border-2 shadow-md transition-all duration-300"
+                  className="hover-elevate flex flex-col overflow-hidden border-2 shadow-md transition-all duration-300"
                   data-testid={`card-blog-${index}`}
                 >
+                  {coverUrl && (
+                    <div className="relative h-48 overflow-hidden bg-muted">
+                      <img
+                        src={coverUrl}
+                        alt={post.coverImage?.alt || post.title}
+                        className="w-full h-full object-cover"
+                        data-testid={`img-blog-${index}`}
+                      />
+                      {post.category && (
+                        <Badge className="absolute top-4 left-4 shadow-lg">{post.category}</Badge>
+                      )}
+                    </div>
+                  )}
                   <CardHeader>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                      <Calendar className="h-4 w-4" />
                       <span>{format(new Date(post.publishedAt), "MMM dd, yyyy")}</span>
+                      {post.readTime ? (
+                        <>
+                          <span>•</span>
+                          <span>{post.readTime} min read</span>
+                        </>
+                      ) : null}
                     </div>
                     <CardTitle className="text-xl font-heading line-clamp-2">{post.title}</CardTitle>
                     <CardDescription className={expanded ? "" : "line-clamp-3"}>

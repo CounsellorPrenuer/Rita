@@ -2,51 +2,40 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, Presentation, UserCheck, Briefcase, Target, Award, Building2 } from "lucide-react";
+import { ArrowRight, Users, Briefcase, Building2 } from "lucide-react";
 import { sanityClient, type ServiceItem } from "@/lib/sanity";
+import { urlFor } from "@/lib/sanityImage";
 
-const iconMap: Record<string, typeof Users> = {
-  Users,
-  Presentation,
-  UserCheck,
-  Briefcase,
-  Target,
-  Award,
-  Building2,
-};
-
-const fallbackServices: (ServiceItem & { icon: typeof Users })[] = [
+const fallbackServices: ServiceItem[] = [
   {
     title: "Leadership Coaching",
     subtitle: "Executive and team leadership development",
     features: ["1:1 Leadership Coaching", "Emotional Intelligence Training", "Team Dynamics Workshops", "Executive Presence"],
-    icon: Users,
   },
   {
     title: "Career Guidance",
     subtitle: "Strategic career planning and transitions",
     features: ["Career Assessment", "Resume & Interview Prep", "Career Transition Planning", "Professional Mentorship"],
-    icon: Briefcase,
   },
   {
     title: "Corporate Workshops",
     subtitle: "Organizational development programs",
     features: ["Custom Workshop Design", "Team Building Sessions", "Communication Skills", "Change Management"],
-    icon: Building2,
   },
 ];
+
+const defaultIcons = [Users, Briefcase, Building2];
 
 export default function ServicesSection() {
   const { data, isLoading } = useQuery({
     queryKey: ["sanity-services"],
     queryFn: async () =>
-      sanityClient.fetch(`*[_type == "services"] | order(order asc){title,subtitle,features,order}`),
+      sanityClient.fetch(
+        `*[_type == "services"] | order(order asc){title,subtitle,features,order,image}`,
+      ),
   });
 
-  const services = (data?.length ? data : fallbackServices).map((s: ServiceItem, i: number) => ({
-    ...s,
-    icon: [Users, Briefcase, Building2][i % 3] || Briefcase,
-  }));
+  const services = (data?.length ? data : fallbackServices) as ServiceItem[];
 
   const scrollToPricing = () => {
     document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" });
@@ -74,17 +63,30 @@ export default function ServicesSection() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => {
-              const Icon = service.icon || Briefcase;
+              const Icon = defaultIcons[index % defaultIcons.length] || Briefcase;
+              const imageUrl = urlFor(service.image, { width: 600, height: 320 });
               return (
                 <Card
                   key={index}
-                  className="hover-elevate flex flex-col border-2 shadow-md transition-all duration-300"
+                  className="hover-elevate flex flex-col overflow-hidden border-2 shadow-md transition-all duration-300"
                   data-testid={`card-service-${index}`}
                 >
-                  <CardHeader>
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
-                      <Icon className="h-6 w-6 text-primary" />
+                  {imageUrl ? (
+                    <div className="h-40 overflow-hidden bg-muted">
+                      <img
+                        src={imageUrl}
+                        alt={service.image?.alt || service.title}
+                        className="w-full h-full object-cover"
+                        data-testid={`img-service-${index}`}
+                      />
                     </div>
+                  ) : null}
+                  <CardHeader>
+                    {!imageUrl && (
+                      <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 border border-primary/20">
+                        <Icon className="h-6 w-6 text-primary" />
+                      </div>
+                    )}
                     <CardTitle className="text-xl font-heading">{service.title}</CardTitle>
                     <CardDescription>{service.subtitle}</CardDescription>
                   </CardHeader>
@@ -99,7 +101,12 @@ export default function ServicesSection() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <Button variant="default" className="w-full" onClick={scrollToPricing} data-testid={`button-view-pricing-${index}`}>
+                    <Button
+                      variant="default"
+                      className="w-full"
+                      onClick={scrollToPricing}
+                      data-testid={`button-view-pricing-${index}`}
+                    >
                       View Pricing
                     </Button>
                   </CardFooter>

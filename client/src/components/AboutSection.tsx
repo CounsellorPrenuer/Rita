@@ -1,9 +1,14 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
-import ritaWorkshopImage from "@assets/generated_images/Rita_conducting_workshop_session_5f68a2ef.png";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { urlFor } from "@/lib/sanityImage";
+import fallbackAbout from "@assets/generated_images/Rita_conducting_workshop_session_5f68a2ef.png";
 
 export default function AboutSection() {
+  const { data: settings } = useSiteSettings();
+  const aboutSrc = urlFor(settings?.aboutImage, { width: 1000 }) ?? fallbackAbout;
+
   const credentials = [
     "ICF Certified Professional Coach (PCC)",
     "Emotional Intelligence Trainer (EQ-i 2.0)",
@@ -29,10 +34,10 @@ export default function AboutSection() {
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative">
-            <div className="absolute -inset-2 bg-primary/5 rounded-2xl blur-xl"></div>
+            <div className="absolute -inset-2 bg-primary/5 rounded-2xl blur-xl" />
             <img
-              src={ritaWorkshopImage}
-              alt="Rita D'Souza conducting workshop"
+              src={aboutSrc}
+              alt={settings?.aboutImage?.alt || "Rita D'Souza conducting workshop"}
               className="relative rounded-2xl w-full h-auto object-cover shadow-lg border-2 border-primary/10"
               data-testid="img-about-workshop"
             />
@@ -61,11 +66,7 @@ export default function AboutSection() {
               </h4>
               <div className="space-y-3">
                 {credentials.map((credential, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start gap-3"
-                    data-testid={`credential-${index}`}
-                  >
+                  <div key={index} className="flex items-start gap-3" data-testid={`credential-${index}`}>
                     <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                     <span className="text-foreground">{credential}</span>
                   </div>

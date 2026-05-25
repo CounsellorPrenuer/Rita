@@ -33,6 +33,12 @@ const customPlans = [
   { _id: "rita-custom-cap-100", _type: "customPlan", planId: "cap-100", title: "College Admissions Planner - 100 (CAP-100)", price: 199, description: "Rs. 199 for a ranked list of the top 100 colleges in your course. Get an expert-curated list of colleges based on verified cut-offs. CAP-100 ranks the top 100 colleges into four tiers to help you plan smarter: Indian Ivy League, Target, Smart Backup, and Safe Bet colleges. You can then shortlist colleges based on where you stand!", order: 7 },
 ];
 
+const siteSettings = {
+  _id: "siteSettings",
+  _type: "siteSettings",
+  siteTitle: "Fast Track 360 Consultancy",
+};
+
 const blogPosts = [
   {
     _id: "rita-blog-career-clarity",
@@ -42,6 +48,8 @@ const blogPosts = [
     excerpt: "Practical steps to align your career goals with your strengths.",
     content: "Career clarity starts with self-awareness, guided exploration, and intentional decision-making supported by expert mentorship.",
     publishedAt: new Date().toISOString(),
+    category: "Career Growth",
+    readTime: 5,
   },
 ];
 
@@ -56,7 +64,7 @@ const testimonials = [
   { _id: "rita-testimonial-2", _type: "testimonials", name: "Rajesh K.", role: "Software Engineer", achievement: "Leadership Role", quote: "The emotional intelligence training transformed how I lead my team and communicate with stakeholders.", order: 2 },
 ];
 
-for (const doc of [...standardPlans, ...customPlans, ...blogPosts, ...services, ...testimonials]) {
+for (const doc of [siteSettings, ...standardPlans, ...customPlans, ...blogPosts, ...services, ...testimonials]) {
   await client.createOrReplace(doc);
 }
 
