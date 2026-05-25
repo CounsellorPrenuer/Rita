@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -30,7 +31,16 @@ declare global {
 }
 
 type Tab = "8-10" | "10-12" | "college" | "working";
-const tabs: Tab[] = ["8-10", "10-12", "college", "working"];
+
+const PRICING_TABS: { id: Tab; label: string }[] = [
+  { id: "8-10", label: "Grades 8–10" },
+  { id: "10-12", label: "Grades 10–12" },
+  { id: "college", label: "College Students" },
+  { id: "working", label: "Working Professionals" },
+];
+
+const subgroupLabel = (subgroup: Tab) =>
+  PRICING_TABS.find((t) => t.id === subgroup)?.label ?? subgroup;
 
 const inrFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -203,26 +213,37 @@ export default function PackagesSection() {
           <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">
             Choose Your Mentorship Plan
           </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Select your stage below to view packages tailored for students and professionals.
+          </p>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-          {tabs.map((tab) => (
-            <Button
-              key={tab}
-              variant={selectedTab === tab ? "default" : "outline"}
-              onClick={() => setSelectedTab(tab)}
-              data-testid={`tab-${tab}`}
-            >
-              {tab}
-            </Button>
-          ))}
-        </div>
+        <Tabs
+          value={selectedTab}
+          onValueChange={(v) => setSelectedTab(v as Tab)}
+          className="mb-10"
+        >
+          <TabsList className="mx-auto flex h-auto w-full max-w-3xl flex-wrap justify-center gap-1 rounded-full bg-muted/60 p-1.5">
+            {PRICING_TABS.map((tab) => (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                data-testid={`tab-${tab.id}`}
+                className="rounded-full px-4 py-2.5 text-sm font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md"
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {tabPlans.map((pkg) => (
             <Card key={pkg.planId} className="border-2 shadow-md flex flex-col">
               <CardHeader>
-                <Badge variant="secondary">{pkg.subgroup}</Badge>
+                <Badge variant="secondary" className="font-normal">
+                  {subgroupLabel(pkg.subgroup as Tab)}
+                </Badge>
                 <CardTitle className="font-heading">{pkg.title}</CardTitle>
                 <div className="text-3xl font-bold text-primary">{formatInr(pkg.price)}</div>
               </CardHeader>

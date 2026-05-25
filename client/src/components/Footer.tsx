@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Linkedin, Facebook, Instagram } from "lucide-react";
 import { SiX } from "react-icons/si";
+import { SANITY_STUDIO_URL } from "@/lib/platform";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -56,6 +57,22 @@ export default function Footer() {
               >
                 Blog
               </button>
+              <button
+                onClick={() => scrollToSection("pricing")}
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                data-testid="footer-link-pricing"
+              >
+                Pricing
+              </button>
+              <a
+                href={SANITY_STUDIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                data-testid="footer-link-cms"
+              >
+                Content Studio
+              </a>
             </div>
           </div>
 

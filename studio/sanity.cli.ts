@@ -5,5 +5,8 @@ export default defineCliConfig({
     projectId: "hytzqone",
     dataset: "production",
   },
-  studioHost: "rita",
+  studioHost: "rita-portfolio",
+  deployment: {
+    appId: "xsnp84b3hrrcu6wueio379qn",
+  },
 });
